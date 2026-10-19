@@ -9,6 +9,11 @@ records and kernels; this note explains the reasoning behind them.
 
 ## Correctness argument
 
+(Proof by authority for Schedule A):  
+2003 paper by Marco Bellia and Eugenia M. Occhiuto, their `UNIFY` algorithm:  
+[N-axioms Parallel Unification](https://journals.sagepub.com/doi/abs/10.3233/FUN-2003-55203)
+
+
 An arena ID denotes a type. A union-find component records IDs required to
 denote the same type. Its representative carries a known constructor when the
 component has one; otherwise its constructor is not yet known.
