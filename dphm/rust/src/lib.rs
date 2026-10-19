@@ -1,5 +1,25 @@
 // Generated/maintained with AI; see repository disclaimers.md.
 //! Closed STLC on flat arrays. Source IDs survive compilation and inference.
+//!
+//! Infer `\x. x` with Algorithm J, then query its node and binder types:
+//!
+//! ```
+//! use dphm::{j, unary::ResolvedAst, Ast, Node};
+//!
+//! let ast = Ast {
+//!     nodes: vec![Node::Lam(1), Node::Var(0, 0)],
+//!     root: 0,
+//! };
+//! let source = ResolvedAst::new(&ast)?;
+//! let typing = j::infer_types(&source)?;
+//!
+//! let arrow = typing.node(0).unwrap();
+//! let parameter = typing.source[0][1]; // The lambda's retained binder type ID.
+//! assert_eq!((arrow.arg1, arrow.ret), (parameter, parameter));
+//! assert_eq!(typing.source[1][0], parameter); // x has that same type.
+//! assert!(typing.binder(0).is_some());
+//! # Ok::<(), dphm::Error>(())
+//! ```
 
 #[cfg(feature = "cuda")]
 pub mod cuda;

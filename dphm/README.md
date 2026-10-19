@@ -21,11 +21,11 @@ type; Python's sequential loops model bulk operations, not parallel execution.
 
 ## Rust CPU implementations
 
-From this directory, with Rust 1.89 or newer:
+From the repository root, with Rust 1.89 or newer:
 
 ```sh
-cargo test --locked --release --manifest-path rust/Cargo.toml
-cargo run --locked --release --manifest-path rust/Cargo.toml --example unary
+cargo test --locked --release
+cargo run --locked --release --example unary
 ```
 
 Prepare a checked input with `unary::ResolvedAst::new(&ast)`, then choose:
@@ -67,6 +67,10 @@ exercise schedules A and B. A uses Down/U1; B adds global upward congruence
 closure and is less optimized. Rebuild native code and bindings together after
 API changes. No Python binding or host inference callback is used.
 
+For reading the implementation, [solver.cu](cuda_solver/solver.cu) contains the
+kernels and their A/B schedule. [runtime_support.hpp](cuda_solver/runtime_support.hpp)
+holds private buffer, output-registration and graph-wiring helpers.
+
 A fresh build includes both targets as native cubins, without PTX. To build only
 one of them, from `cuda_solver/`:
 
@@ -90,6 +94,18 @@ race-freedom test.
 
 CUDA A/B correctness tests last passed on Linux, CUDA 13.3, compute capability
 12.0. Target 8.9 is compile-checked, not runtime-validated here.
+
+## Development checks
+
+From the repository root:
+
+```sh
+cargo fmt --all --check
+cargo clippy --locked --all-targets -- -D warnings
+cargo test --locked
+```
+
+C++/CUDA sources follow the root `.clang-format`.
 
 Read the [algorithm](docs/algorithm.md), [rationale](docs/rationale.md),
 [limitations](docs/limitations.md) and [AI disclosure](../disclaimers.md).

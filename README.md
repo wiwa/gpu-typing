@@ -51,11 +51,12 @@ For the Python examples, with Python 3.10+ and no third-party dependencies:
 python3 -B dphm/dphm_simple.py
 ```
 
-The Python and Rust CPU implementations need no GPU. For the Rust tests, with
-Rust 1.89 or newer:
+The Python and Rust CPU implementations need no GPU. With Rust 1.89 or newer,
+run from the repository root:
 
 ```sh
-cargo test --locked --release --manifest-path dphm/rust/Cargo.toml
+cargo test --locked --release
+cargo run --locked --release --example unary
 ```
 
 The CUDA solver needs Linux and an sm_89 or sm_120 NVIDIA GPU; see its

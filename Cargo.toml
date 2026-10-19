@@ -1,0 +1,7 @@
+# Generated/maintained with AI; see repository disclaimers.md.
+[workspace]
+members = ["dphm/rust"]
+resolver = "2"
+
+[profile.release]
+debug = 1
