@@ -1,0 +1,26 @@
+# Generated/maintained with AI; see repository disclaimers.md.
+[workspace]
+name = "dphm-cuda"
+version = "0.1.0"
+channels = ["conda-forge"]
+platforms = [{ platform = "linux-64", cuda = "13" }]
+
+[dependencies]
+cmake = ">=3.31,<5"
+ninja = ">=1.12,<2"
+rust = ">=1.89,<2"
+gxx_linux-64 = "14.*"
+cuda-version = "13.3.*"
+cuda-nvcc = "13.3.*"
+cuda-cudart-dev = "13.3.*"
+cuda-cccl = "13.3.*"
+
+[tasks]
+configure = "env -u NVCC_PREPEND_FLAGS cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CUDA_COMPILER=$CONDA_PREFIX/bin/nvcc -DCMAKE_CUDA_HOST_COMPILER=$CXX"
+build = { cmd = "env -u NVCC_PREPEND_FLAGS cmake --build build -j 4", depends-on = ["configure"] }
+arch-check = "sh check-architectures.sh"
+native-test = { cmd = "ctest --test-dir build --output-on-failure", depends-on = ["build"] }
+rust-build = { cmd = "DPHM_CUDA_LIB_DIR=$PWD/build cargo build --locked --release --features cuda --manifest-path ../rust/Cargo.toml", depends-on = ["build"] }
+rust-test = { cmd = "DPHM_CUDA_LIB_DIR=$PWD/build cargo test --locked --release --features cuda --manifest-path ../rust/Cargo.toml", depends-on = ["build"] }
+unary-example = { cmd = "DPHM_CUDA_LIB_DIR=$PWD/build cargo run --locked --release --features cuda --manifest-path ../rust/Cargo.toml --example unary -- --cuda", depends-on = ["build"] }
+unary-example-b = { cmd = "DPHM_CUDA_LIB_DIR=$PWD/build cargo run --locked --release --features cuda --manifest-path ../rust/Cargo.toml --example unary -- --cuda-b", depends-on = ["build"] }
