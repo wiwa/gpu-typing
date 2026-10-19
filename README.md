@@ -6,7 +6,15 @@ monomorphic fragment: closed unary STLC with Bool/Int, without let-generalizatio
 The [algorithm guide](dphm/docs/algorithm.md) defines the phases and representation;
 the [introductory blog post](https://winwang.blog/posts/dphm-1) gives a walkthrough.
 
-We use Rust -> CUDA instead of simple C++/CUDA, so we can read less C++.
+## Notes
+
+- Lots of AI, and therefore [disclaimers](disclaimers.md).
+- Python impl was human-reviewed/written and Rust algorithm J was lightly reviewed.
+- We use Rust -> CUDA instead of simple C++/CUDA, so we can read less C++.
+- This repo was mostly precipitated out of "research code",
+  so some oddities remain, e.g. some struct fields will be constantly zero (harmlessly).
+
+## Implementations
 
 There are five implementations:
 
@@ -28,9 +36,6 @@ There are five implementations:
 The Rust implementations share a whole-tree result interface and provide the
 CUDA bindings. Supporting files contain the AST representation, build setup,
 examples and correctness tests—not additional inference engines.
-
-The Python sketch is effectively equivalent to `UNIFY` as laid out in the paper
-"N-Axioms Parallel Unification" (2003) by Bellia and Occhiuto.
 
 ## Read and run
 
@@ -57,3 +62,14 @@ The CUDA solver needs Linux and an sm_89 or sm_120 NVIDIA GPU; see its
 [build instructions](dphm/README.md#cuda).
 
 Project code is [MIT licensed](LICENSE); dependencies retain their own licenses.
+
+
+## Prior Art
+
+The Python sketch is effectively equivalent to `UNIFY` as laid out
+in the paper [N-axioms Parallel Unification](https://journals.sagepub.com/doi/abs/10.3233/FUN-2003-55203)
+(2003) by Bellia and Occhiuto.
+
+We extend `UNIFY` with a bit of optimization ("U1") and also global congruence ("Schedule B").
+
+Ask your AI agent for even more history of parallel unification, going back to Huet.
