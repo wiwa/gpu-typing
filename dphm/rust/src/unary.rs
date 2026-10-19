@@ -117,13 +117,7 @@ impl ResolvedAst {
 
     fn problem(&self, retain_equations: bool) -> Problem {
         Problem {
-            arena: vec![
-                TInfo {
-                    arg1: 0,
-                    ret: 0
-                };
-                self.type_count()
-            ],
+            arena: vec![TInfo { arg1: 0, ret: 0 }; self.type_count()],
             equations: if retain_equations {
                 vec![Equation { left: 0, right: 0 }; self.arrows]
             } else {
@@ -321,13 +315,7 @@ mod tests {
         let p = ResolvedAst::new(&ast).unwrap().compile();
         assert_eq!(p.node_types, [3, 4]);
         assert_eq!(p.binder_types, [[4, 0], [0, 0]]);
-        assert_eq!(
-            p.arena[5],
-            TInfo {
-                arg1: 4,
-                ret: 4
-            }
-        );
+        assert_eq!(p.arena[5], TInfo { arg1: 4, ret: 4 });
         crate::validate_problem(&p).unwrap();
         assert_eq!(
             crate::readback::depth(&p, &crate::sequential::solve(&p).unwrap()).unwrap(),

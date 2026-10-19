@@ -94,10 +94,7 @@ mod tests {
 
     fn problem(extra: &[(TypeId, TypeId)], equations: &[(TypeId, TypeId)]) -> Problem {
         let mut arena = vec![
-            TInfo {
-                arg1: 0,
-                ret: 0,
-            },
+            TInfo { arg1: 0, ret: 0 },
             TInfo {
                 arg1: crate::BASE_ARG,
                 ret: 1,
@@ -108,10 +105,7 @@ mod tests {
             },
         ];
         for &(arg1, ret) in extra {
-            arena.push(TInfo {
-                arg1,
-                ret,
-            });
+            arena.push(TInfo { arg1, ret });
         }
         Problem {
             arena,
@@ -174,10 +168,7 @@ mod tests {
         let (mut left, mut right) = (1, 1);
         for _ in 0..10_000 {
             let a = p.arena.len() as TypeId;
-            p.arena.push(TInfo {
-                arg1: 2,
-                ret: left,
-            });
+            p.arena.push(TInfo { arg1: 2, ret: left });
             p.arena.push(TInfo {
                 arg1: 2,
                 ret: right,

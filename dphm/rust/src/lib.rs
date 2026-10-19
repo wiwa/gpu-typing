@@ -119,10 +119,7 @@ pub fn validate_problem(p: &Problem) -> Result<(), Error> {
         let shape = match i {
             0 => t.arg1 == 0 && t.ret == 0,
             1 | 2 => t.arg1 == crate::BASE_ARG && t.ret == i as TypeId,
-            _ => {
-                (t.arg1 == 0 && t.ret == i as TypeId)
-                    || (valid(t.arg1) && valid(t.ret))
-            }
+            _ => (t.arg1 == 0 && t.ret == i as TypeId) || (valid(t.arg1) && valid(t.ret)),
         };
         if !shape {
             return Err(Error::InvalidProblem("invalid TInfo"));
